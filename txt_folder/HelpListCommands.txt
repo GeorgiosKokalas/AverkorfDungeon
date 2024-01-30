@@ -1,0 +1,22 @@
+Here is a list of available commands:
+    Action      Time    Explanation
+    -------------------------------------
+    [H]elp        0     List this menu.
+    [R]oom        3     List current room information.
+    [C]atalogous  10    Use your catalogous to list all rooms located.
+    [M]ove        5     Go to door in a specified direction:
+        [mN]orth
+        [mE]ast
+        [mS]outh
+        [mW]est
+    
+    [U]se         ?     Use the item you are holding. Time taken depends on item used.
+    [I]nventory   10    List all of the items in your inventory.
+    [P]ull out    5+?   Pull out an item that you are not holding out of your inventory and use it.
+    [E]quip       3     Unequip your current item and equip another.
+
+    [W]ait        5     If the dungeon is too hard now, exit and come again later.
+    [G]ive up     0     This pursuit is getting pointless.
+    [Q]uit Game
+
+Time listed after every action is the amount of time you need to perform it
