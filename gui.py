@@ -1,12 +1,22 @@
 import tkinter as tk 
 import ttkbootstrap as ttkb
 
-root = ttkb.Window(themename="superhero")
 
-root.title("TTK Bootstrap")
-root.geometry("1000x350")
+def create_menu():
+    root = ttkb.Window()
 
-mylabel = ttkb.Label(text = "Label1", font=("Helvetica", 28), bootstyle="default")
-mylabel.pack(pady = 50)
+    root.title("Averkorf Dungeon - Python")
+    root.geometry("1000x350")
 
-root.mainloop()
+    pan = tk.PanedWindow(root, bd=4, orient='vertical', background = 'red', width = 200)
+    pan.pack(side = 'left', fill='both')
+
+    mybutton = ttkb.Button(text = "Click", bootstyle = "primary, outline")
+    mybutton.pack(pady= 60)
+
+ 
+
+    root.mainloop()
+
+if __name__ == "__main__":
+    create_menu()
