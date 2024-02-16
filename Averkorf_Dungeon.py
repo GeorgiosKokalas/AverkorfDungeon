@@ -20,7 +20,7 @@ def screen_clear():
     else:
         os.system('clear')
         
-
+ 
 def print_locations():
     global LOCATIONS
 
