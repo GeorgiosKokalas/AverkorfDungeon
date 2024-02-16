@@ -19,8 +19,8 @@ def screen_clear():
     # for mac and linux(here, os.name is 'posix')
     else:
         os.system('clear')
+      
         
- 
 def print_locations():
     global LOCATIONS
 
