@@ -1,8 +1,15 @@
 import os,sys
 
+# Before Importing, we set the workign directory to be that of the script
+# Then append the Code folder into our path
+os.chdir(os.path.dirname(os.path.realpath(__file__)))
 sys.path.append("./Code/")
-from global_vars import *
-import Room
+
+# Import what we need from the Code section
+from Code.global_vars import *
+import Code.Class_Room as Room
+from Code.interface import run_interface
+import Code.Class_Option as Option
 
 
 def print_txt(fileName):
@@ -93,7 +100,7 @@ def play_game() -> bool:
             print("Command not recognized. Try again")
     return False
 
-def main():
+def main_1():
     global ABSOLUTE_ROOM_NUM, LOCATIONS, OPENINGS
 
     game = True
@@ -114,6 +121,41 @@ def main():
         else:
             input("Command not recognized. Press enter to try again.")
 
+def print_info():
+    backOption = Option.Option("Back to Main Menu", 1, "back")
+    quitOption = Option.Option("Quit", 2, "quit")
+    OptionsList = [backOption,quitOption]
+
+    selectedOption = run_interface(OptionsList,AsciiArt=0,StatusText="MainMenuInfo")
+    match selectedOption.command:
+        case "back":
+            return True
+        case "quit":
+            quit()
+
+
+def main_menu():
+    global ABSOLUTE_ROOM_NUM, LOCATIONS, OPENINGS
+    playOption = Option.Option("Play", 1, "play")
+    loadOption = Option.Option("Load", 2, "load")
+    infoOption = Option.Option("Info", 3, "info")
+    quitOption = Option.Option("Quit", 4, "quit")
+    OptionsList = [playOption, loadOption, infoOption, quitOption]
+    
+    mainMenuActive = True
+    while mainMenuActive:
+        selectedOption = run_interface(OptionsList)
+        match selectedOption.command:
+            case "play":
+                print("play")
+            case "load":
+                print("Load")
+            case "info":
+                print_info()
+            case "quit":
+                print("BuBye!")
+                mainMenuActive = False
+
 
 if __name__ == "__main__":
-    main()
+    main_menu()

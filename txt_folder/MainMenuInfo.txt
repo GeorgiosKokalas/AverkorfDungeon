@@ -1,0 +1,42 @@
+AVERKORF DUNGEON
+----------------
+This is meant to be a small roguelike game made as a side project. 
+In this game you will be using the arrow keys in order to select a wanted command and then carrying it out by pressing enter.
+You are taking the place of an adventurer, who wants to obtain some treasure. The goal is to navigate enough rooms to get to the treasure and then get out.
+The game is meant to be completed in one sitting.
+
+UPDATE INFO:
+------------
+CURRENT Build - 0.2.1:
+Implementing menu in selection format. 
+
+Build - 0.2.0: 
+Experimenting with keyboard library; switching from command typing to prompt selection
+
+Build - 0.1.7:
+Working on ascii art to be displayed per print message.
+
+Build - 0.1.6:
+Beginning to implement txt files for all text dumps.
+Decided to remain focused on command line gameplay.
+
+Build - 0.1.5:
+Implemented a Python Virtual Environment, in case I need to install libraries.
+Experimenting with the a gui using ttkbootstrap.
+
+Build - 0.1.4:
+Separated code into multiple files. Classes will now have their own location, as will global variables.
+Implemented a few fail states for the player to lose.
+
+Build - 0.1.3:
+Implemented some options, and flavor text for specific situations.
+Changed Room generation: Now rooms will stored in a global dictionary, rather than having references to one another. (References do not update well)
+
+Build - 0.1.2: 
+Updated movement - instead of going in numerical directions, you choose north, east, south, west
+
+Build - 0.1.1:
+Implemented a main menu before starting up the game. 
+
+Build - 0.1.0: 
+Created main.py, containing the Room class. Room generates a door, leading to other rooms
