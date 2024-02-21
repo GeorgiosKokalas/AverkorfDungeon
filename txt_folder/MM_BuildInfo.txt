@@ -1,4 +1,7 @@
-CURRENT Build - 0.2.1:
+Build - 0.2.2:
+Implementing intro narrative slides on New Game
+
+Build - 0.2.1:
 Implementing menu in selection format. 
 
 Build - 0.2.0: 
