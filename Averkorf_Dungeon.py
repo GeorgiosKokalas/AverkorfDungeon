@@ -121,41 +121,87 @@ def main_1():
         else:
             input("Command not recognized. Press enter to try again.")
 
-def print_info():
-    backOption = Option.Option("Back to Main Menu", 1, "back")
-    quitOption = Option.Option("Quit", 2, "quit")
-    OptionsList = [backOption,quitOption]
-
-    selectedOption = run_interface(OptionsList,AsciiArt=0,StatusText="MainMenuInfo")
-    match selectedOption.command:
-        case "back":
-            return True
-        case "quit":
-            quit()
+### GAME INTRO FUNCTION
+# ---------------------
+# FUNCTION used to display the intro bit by bit
+def INTRO_game_intro(Stage = 1):
+    asciiArt, StatusText = "", ""
+    match Stage:
+        case 1:
+            asciiArt, StatusText = "Intro1Beer", 
 
 
-def main_menu():
+### MAIN MENU FUNCTIONS
+# ----------------------
+# FUNCTION used to set up information pages for the user
+def MM_info_generic(Variant = "game_info") -> Option.Option:
+    # These should differ per information page
+    optionNames, optionCommand, statusText = [], [], ""
+    
+    # match the variables for each game 
+    match Variant.lower():
+        case "game_info":
+            optionNames = ["See build history"]
+            optionCommand = ["build_info"]
+            statusText = "MM_GameInfo"
+        case "build_info":
+            optionNames = ["See game information"]
+            optionCommand = ["game_info"]
+            statusText = "MM_BuildInfo"
+        case _:
+            print("Variant of information site is unknown, assuming game_info")
+            return MM_info_generic("game_info")
+
+    # If for some reason we do not have equal list lengths, options cannot be created
+    if len(optionCommand) != len(optionNames):
+        raise IndexError("optionCommand and optionNames are supposed to have equal lengths for button creation")
+    
+    # Create options lists
+    OptionsList = [Option.Option(optionNames[idx], -1, optionCommand[idx]) for idx in range(len(optionCommand))]
+    OptionsList.append(Option.Option("Back to Main Menu", -1, "main_menu"))
+    OptionsList.append(Option.Option("Quit", -1, "quit"))
+
+    return run_interface(OptionsList,AsciiArt="MainTitle",StatusText=statusText)
+
+
+# FUNCTION MAIN MENU
+def main_menu() -> Option.Option:
     global ABSOLUTE_ROOM_NUM, LOCATIONS, OPENINGS
-    playOption = Option.Option("Play", 1, "play")
-    loadOption = Option.Option("Load", 2, "load")
-    infoOption = Option.Option("Info", 3, "info")
-    quitOption = Option.Option("Quit", 4, "quit")
+    playOption = Option.Option("New Game", 1, "new_game")
+    loadOption = Option.Option("Load Game", -1, "load_game")
+    infoOption = Option.Option("Info", -1, "game_info")
+    quitOption = Option.Option("Quit", -1, "quit")
     OptionsList = [playOption, loadOption, infoOption, quitOption]
     
-    mainMenuActive = True
-    while mainMenuActive:
-        selectedOption = run_interface(OptionsList)
-        match selectedOption.command:
-            case "play":
-                print("play")
-            case "load":
-                print("Load")
-            case "info":
-                print_info()
-            case "quit":
-                print("BuBye!")
-                mainMenuActive = False
+    return run_interface(OptionsList, "MM_Title")
 
+
+# MAIN
+# ----
+# The main command serves as the main hub for all button clicks
+def main():
+    takenOption = main_menu()
+    while True:
+        match takenOption.command.lower():
+            # MAIN MENU ITEMS
+            case "main_menu":
+                takenOption = main_menu()
+            case "new_game":
+                takenOption = INTRO_game_intro()
+            case "load_game":
+                break
+            case "game_info":
+                takenOption = MM_info_generic("game_info")
+            case "build_info":
+                takenOption = MM_info_generic("build_info")
+            case "quit":
+                quit()
+            
+            # INTRO ITEMS
+            case "intro_continue":
+                match takenOption.id:
+                    case 2:
+            
 
 if __name__ == "__main__":
-    main_menu()
+    main()

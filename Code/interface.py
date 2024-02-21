@@ -20,7 +20,7 @@ def print_option(SingleOption, OptionIdx, SelectedOptionIdx, OptionsLength):
        print(SingleOption)
 
 
-def update_interface(OptionsList, SelectedOptionIdx = 0, AsciiArt = 0, StatusText = 0):
+def update_interface(OptionsList, SelectedOptionIdx = 0, AsciiArt = 0, StatusText = 0, TxtPointer = True):
     if AsciiArt != 0:
         asciiFile = open( "./ascii/"+AsciiArt+".txt", "r")
         print(asciiFile.read())
@@ -28,9 +28,13 @@ def update_interface(OptionsList, SelectedOptionIdx = 0, AsciiArt = 0, StatusTex
     
     if StatusText !=0:
         print("------------------------------")
-        statusFile = open( "./txt_folder/"+StatusText+".txt", "r")
-        print(statusFile.read())
-        statusFile.close()
+        if TxtPointer:
+            statusFile = open( "./txt_folder/"+StatusText+".txt", "r")
+            print(statusFile.read())
+            statusFile.close()
+        else:
+            print(StatusText)
+
 
     print("------------------------------")
     for idx in range(len(OptionsList)):
@@ -40,12 +44,12 @@ def update_interface(OptionsList, SelectedOptionIdx = 0, AsciiArt = 0, StatusTex
     return keyboard.read_key(suppress=True)
     
 
-def run_interface(OptionsList=0, AsciiArt = 0, StatusText = 0) -> Option.Option:
+def run_interface(OptionsList=0, AsciiArt = 0, StatusText = 0, TxtPointer = True) -> Option.Option:
     position = 0
     isInterfaceRunning = True
     while isInterfaceRunning:
         screen_clear()
-        key = update_interface(OptionsList,position, AsciiArt, StatusText)
+        key = update_interface(OptionsList,position, AsciiArt, StatusText, TxtPointer)
         match key:
             case "up":
                 position -= 1
