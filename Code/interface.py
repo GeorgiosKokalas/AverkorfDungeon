@@ -27,7 +27,7 @@ def update_interface(OptionsList, SelectedOptionIdx = 0, AsciiArt = 0, StatusTex
         asciiFile.close()
     
     if StatusText !=0:
-        print("------------------------------")
+        # print("------------------------------")
         if TxtPointer:
             statusFile = open( "./txt_folder/"+StatusText+".txt", "r")
             print(statusFile.read())

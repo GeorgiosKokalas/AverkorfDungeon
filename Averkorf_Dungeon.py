@@ -124,11 +124,16 @@ def main_1():
 ### GAME INTRO FUNCTION
 # ---------------------
 # FUNCTION used to display the intro bit by bit
-def INTRO_game_intro(Stage = 1):
-    asciiArt, StatusText = "", ""
-    match Stage:
-        case 1:
-            asciiArt, StatusText = "Intro1Beer", 
+def INTRO_game_intro(Stage = 1) -> Option.Option:
+    asciiArt = "INTRO_Pic" + str(Stage)
+    statusText = "INTRO_Part" + str(Stage)
+    optionsList = []
+    if Stage < 4:
+        optionsList = [ Option.Option("Continue", Stage+1, "intro_continue"), \
+                        Option.Option("Skip", -1, "intro_skip")]
+    else:
+        optionsList = [ Option.Option("Continue", -1, "intro_skip") ]
+    return run_interface(optionsList,AsciiArt=asciiArt,StatusText=statusText)
 
 
 ### MAIN MENU FUNCTIONS
@@ -157,11 +162,11 @@ def MM_info_generic(Variant = "game_info") -> Option.Option:
         raise IndexError("optionCommand and optionNames are supposed to have equal lengths for button creation")
     
     # Create options lists
-    OptionsList = [Option.Option(optionNames[idx], -1, optionCommand[idx]) for idx in range(len(optionCommand))]
-    OptionsList.append(Option.Option("Back to Main Menu", -1, "main_menu"))
-    OptionsList.append(Option.Option("Quit", -1, "quit"))
+    optionsList = [Option.Option(optionNames[idx], -1, optionCommand[idx]) for idx in range(len(optionCommand))]
+    optionsList.append(Option.Option("Back to Main Menu", -1, "main_menu"))
+    optionsList.append(Option.Option("Quit", -1, "quit"))
 
-    return run_interface(OptionsList,AsciiArt="MainTitle",StatusText=statusText)
+    return run_interface(optionsList,AsciiArt="MM_Title",StatusText=statusText)
 
 
 # FUNCTION MAIN MENU
@@ -171,9 +176,9 @@ def main_menu() -> Option.Option:
     loadOption = Option.Option("Load Game", -1, "load_game")
     infoOption = Option.Option("Info", -1, "game_info")
     quitOption = Option.Option("Quit", -1, "quit")
-    OptionsList = [playOption, loadOption, infoOption, quitOption]
+    optionsList = [playOption, loadOption, infoOption, quitOption]
     
-    return run_interface(OptionsList, "MM_Title")
+    return run_interface(optionsList, "MM_Title")
 
 
 # MAIN
@@ -199,8 +204,15 @@ def main():
             
             # INTRO ITEMS
             case "intro_continue":
-                match takenOption.id:
-                    case 2:
+                takenOption = INTRO_game_intro(takenOption.id)
+            case "intro_skip":
+                print("play!")
+                break    
+
+            # FALLBACK
+            case _:
+                raise ValueError("Command not understood. Deciding to crash...")
+            
             
 
 if __name__ == "__main__":
