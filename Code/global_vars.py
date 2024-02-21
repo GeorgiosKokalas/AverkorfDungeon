@@ -16,6 +16,15 @@ class rng():
                     'Entrance Lock': 0.2,            # The chances that you cannot head back the way you came from
                     'Suddenly Secret Door': 0.5}     # The chances that a door that should lead to another room is locked from this side
 
+class player():
+    # The max value of something is the highest it can go
+    def __init__(self):
+        self.maxHealth  = self.topHealth  = self.curHealth  = 100 
+        self.maxStamina = self.topStamina = self.curStamina = 100 
+        self.maxMagic   = self.topMagic   = self.curMagic   = 100
+    
+    
+
 class color_wheel():
     def __init__(self):
         self.val = {}
@@ -45,9 +54,13 @@ LOCATIONS = locations()
 RNG = rng()
 COLOR_WHEEL = color_wheel()
 
-
-
 # PROGRAM INFO
 TITLE = "Averkorf Dungeon"
 CREATOR = "George"
 PLATFORM = "Python 3"
+
+
+def reset_global_vars():
+    ABSOLUTE_ROOM_NUM.val = 1
+    LOCATIONS.val = {}  
+    OPENINGS.val = 0

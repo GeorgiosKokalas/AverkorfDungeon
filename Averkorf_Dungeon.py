@@ -100,26 +100,26 @@ def play_game() -> bool:
             print("Command not recognized. Try again")
     return False
 
-def main_1():
-    global ABSOLUTE_ROOM_NUM, LOCATIONS, OPENINGS
+# def main_1():
+#     global ABSOLUTE_ROOM_NUM, LOCATIONS, OPENINGS
 
-    game = True
-    while game:
-        screen_clear()
-        choice = str(input("AVERKORF DUNGEON\n-[P]lay\n-[I]nfo\n-[Q]uit\nYour Input here: ")).lower()
-        if choice == 'p':
-            ABSOLUTE_ROOM_NUM.val = 1
-            LOCATIONS.val = {}  
-            OPENINGS.val = 0
-            game = play_game()
-        elif choice == 'i':
-            screen_clear()
-            print_txt("GameLore")
-            input('Press Enter to go back to the menu.')
-        elif choice == 'q':
-            return 0
-        else:
-            input("Command not recognized. Press enter to try again.")
+#     game = True
+#     while game:
+#         screen_clear()
+#         choice = str(input("AVERKORF DUNGEON\n-[P]lay\n-[I]nfo\n-[Q]uit\nYour Input here: ")).lower()
+#         if choice == 'p':
+#             ABSOLUTE_ROOM_NUM.val = 1
+#             LOCATIONS.val = {}  
+#             OPENINGS.val = 0
+#             game = play_game()
+#         elif choice == 'i':
+#             screen_clear()
+#             print_txt("GameLore")
+#             input('Press Enter to go back to the menu.')
+#         elif choice == 'q':
+#             return 0
+#         else:
+#             input("Command not recognized. Press enter to try again.")
 
 ### GAME INTRO FUNCTION
 # ---------------------
@@ -171,7 +171,6 @@ def MM_info_generic(Variant = "game_info") -> Option.Option:
 
 # FUNCTION MAIN MENU
 def main_menu() -> Option.Option:
-    global ABSOLUTE_ROOM_NUM, LOCATIONS, OPENINGS
     playOption = Option.Option("New Game", 1, "new_game")
     loadOption = Option.Option("Load Game", -1, "load_game")
     infoOption = Option.Option("Info", -1, "game_info")
@@ -192,6 +191,7 @@ def main():
             case "main_menu":
                 takenOption = main_menu()
             case "new_game":
+                reset_global_vars()
                 takenOption = INTRO_game_intro()
             case "load_game":
                 break
