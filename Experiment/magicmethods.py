@@ -33,3 +33,5 @@ print(obj.b)  # Output: 5
 # Add 3 to b
 obj.b += 3
 print(obj.b)  # Output: 8
+
+property
