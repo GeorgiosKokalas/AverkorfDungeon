@@ -7,46 +7,44 @@ class player():
 
     def __change_max(self, NewVal, MaxTrait, TopTrait, CurTrait):
         diff = NewVal - MaxTrait
+        MaxTrait = NewVal
+        if MaxTrait < 0:
+            CurTrait = TopTrait = MaxTrait = 0
+
         if diff >= 0:
-            MaxTrait += diff
             TopTrait += diff
             CurTrait += diff
-        else:
-            if MaxTrait - diff <= 0:
-                MaxTrait = TopTrait = CurTrait = 0
-            else: 
-                MaxTrait -= diff
-                if TopTrait > MaxTrait:
-                    TopTrait = MaxTrait
-                if CurTrait > MaxTrait:
-                    CurTrait = MaxTrait
+        if TopTrait > MaxTrait:
+            TopTrait = MaxTrait
+        if CurTrait > MaxTrait:
+            CurTrait = MaxTrait
+
         return MaxTrait, TopTrait, CurTrait
     
 
     def __change_top(self, NewVal, MaxTrait, TopTrait, CurTrait):
         diff = NewVal - TopTrait
+        TopTrait = NewVal
+        if TopTrait > MaxTrait:
+            diff = MaxTrait - (TopTrait - diff)
+            TopTrait = MaxTrait
+        if TopTrait < 0:
+            CurTrait = TopTrait = 0
+        
         if diff >= 0:
-            if TopTrait + diff > MaxTrait:
-                diff = MaxTrait - TopTrait
-            MaxTrait += diff
             CurTrait += diff
-        else:
-            if TopTrait - diff <= 0:
-                TopTrait = CurTrait = 0
-            else:
-                TopTrait -= diff
-                if CurTrait > TopTrait:
-                    CurTrait = TopTrait
+        if CurTrait > TopTrait:
+            CurTrait = TopTrait
+
+        print(diff, MaxTrait, TopTrait, CurTrait)
         return TopTrait, CurTrait
 
 
     def __change_cur(self, NewVal, TopTrait, CurTrait):
-        diff = NewVal - CurTrait
-        if diff >= 0:
-            CurTrait += diff
-            if CurTrait > TopTrait:
-                CurTrait = TopTrait
-        else:
+        CurTrait = NewVal
+        if CurTrait > TopTrait:
+            CurTrait = TopTrait
+        if CurTrait < 0:
             CurTrait = 0
         return CurTrait
 
