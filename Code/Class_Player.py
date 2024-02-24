@@ -1,9 +1,9 @@
 class player():
     # The max value of something is the highest it can go
     def __init__(self, Health=100, Stamina=100, Magic=100):
-        self._maxHealth  = self._topHealth  = self._curHealth  = 100 
-        self._maxStamina = self._topStamina = self._curStamina = 100 
-        self._maxMagic   = self._topMagic   = self._curMagic   = 100
+        self._maxHealth  = self._topHealth  = self._curHealth  = Health 
+        self._maxStamina = self._topStamina = self._curStamina = Stamina
+        self._maxMagic   = self._topMagic   = self._curMagic   = Magic
 
     def __change_max(self, NewVal, MaxTrait, TopTrait, CurTrait):
         diff = NewVal - MaxTrait
@@ -128,4 +128,6 @@ class player():
     @curMagic.setter
     def curMagic(self, NewVal):
         self._curMagic = self.__change_top(NewVal, self._topMagic, self._curMagic)
+
+    
 

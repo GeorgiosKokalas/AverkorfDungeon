@@ -1,3 +1,7 @@
+Build - 0.2.3:
+Creating a Player Class
+Implementing selection Format into simple dungeon navigation.
+
 Build - 0.2.2:
 Implementing intro narrative slides on New Game
 

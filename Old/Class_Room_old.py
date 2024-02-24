@@ -4,7 +4,7 @@ from global_vars import *
 
 class Room:
     def __init__(self, entry, roomNum, location):
-        global LOCATIONS, OPENINGS, RNG, DIRECTIONS
+        global LOCATIONS, OPENINGS, RNG
 
         self._doors = [0,0,0,0]
         self.location = location
@@ -12,19 +12,15 @@ class Room:
             self._doors[entry] = 2
         self.roomNum = roomNum
         self.nexLoc = []
-        for direction in DIRECTIONS:
-            xAxis = yAxis = zAxis = 0
-            match direction.lower():
-                case "north":
-                    yAxis += 1
-                case "east":
-                    xAxis += 1
-                case "south":
-                    yAxis -= 1
-                case "west":
-                    xAxis -= 1
-            
-            self.nexLoc.append((location[0] + xAxis, location[1] + yAxis))
+        for i in range(4):
+            if i == 0:
+                self.nexLoc.append((location[0], location[1] + 1))
+            elif i == 1:
+                self.nexLoc.append((location[0] + 1, location[1]))
+            elif i == 2:
+                self.nexLoc.append((location[0], location[1] - 1))
+            elif i == 3:
+                self.nexLoc.append((location[0] - 1, location[1]))
 
             chance = random.random()
             if i == entry:
@@ -45,6 +41,7 @@ class Room:
         
         self.trap = len(list(filter(lambda x: x == 2 or x == 1, self._doors))) == 0 and entry > -1
 
+        
         LOCATIONS.val[location] = self
 
 

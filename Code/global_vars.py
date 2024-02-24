@@ -8,13 +8,17 @@ class openings:
 
 class absolute_room_num():
     def __init__(self):
-        self.val = 1
+        self.val = 0
 
 class rng():
     def __init__(self):
         self.val = {'Random Room Spawn': 0.3,        # The chances of a new door to spawn
                     'Entrance Lock': 0.2,            # The chances that you cannot head back the way you came from
                     'Suddenly Secret Door': 0.5}     # The chances that a door that should lead to another room is locked from this side
+        
+class current_location():
+    def __init__(self):
+        self.val = (0,0)
 
 class color_wheel():
     def __init__(self):
@@ -39,11 +43,17 @@ class color_wheel():
         self.val["BOLD_WHITE"]      = "\033[1;37m"
         self.val["BOLD_GRAY"]       = "\033[1;38m"
 
-OPENINGS = openings()
+# VARIABLE
 ABSOLUTE_ROOM_NUM = absolute_room_num()
 LOCATIONS = locations()
+OPENINGS = openings()
+CURRENT_LOCATION = current_location()
+
+# STATIC
 RNG = rng()
 COLOR_WHEEL = color_wheel()
+DIRECTIONS = ["North", "East", "South", "West", "Up", "Down"]
+DOOR_STATUS =
 
 # PROGRAM INFO
 TITLE = "Averkorf Dungeon"
@@ -52,6 +62,7 @@ PLATFORM = "Python 3"
 
 
 def reset_global_vars():
-    ABSOLUTE_ROOM_NUM.val = 1
+    ABSOLUTE_ROOM_NUM.val = 0
     LOCATIONS.val = {}  
     OPENINGS.val = 0
+    CURRENT_LOCATION.val = (0,0)

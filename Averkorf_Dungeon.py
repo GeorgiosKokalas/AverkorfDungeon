@@ -42,63 +42,87 @@ def print_locations():
     print(message)
         
 
-def play_game() -> bool:
-    global OPENINGS, LOCATIONS, ABSOLUTE_ROOM_NUM
+# def play_game() -> bool:
+#     global OPENINGS, LOCATIONS, ABSOLUTE_ROOM_NUM
 
-    play = True
-    input("You start in Room 1. Location: 0,0. Press Enter to continue.")
-    room = Room.Room(-1, 1, (0,0))
-    while play:
-        print(f"\nOpenings: {OPENINGS.val}")
-        room.update()
-        if room.trap:
-            print("You realize that this room has no exit and that you are trapped.")
-            print("To your horror, you realise, that you will be added to the list of sould that lost their lives here.")
-            print("There is nothing to do, but to wait a slow, torturous and isolated death.")
-            input("Press Enter to go to the main menu")
-            return True
+#     play = True
+#     input("You start in Room 1. Location: 0,0. Press Enter to continue.")
+#     room = Room.Room(-1, 1, (0,0))
+#     while play:
+#         print(f"\nOpenings: {OPENINGS.val}")
+#         room.update()
+#         if room.trap:
+#             print("You realize that this room has no exit and that you are trapped.")
+#             print("To your horror, you realise, that you will be added to the list of sould that lost their lives here.")
+#             print("There is nothing to do, but to wait a slow, torturous and isolated death.")
+#             input("Press Enter to go to the main menu")
+#             return True
 
-        choice = str(input("Choose option (h for help): ")).lower()
-        if choice == 'h':
-            print_txt("HelpListCommands")
-        elif choice == 'r':
-            print(room)
-        elif len(choice) > 1 and choice[0] == 'm':
-            try:
-                doorChoice = choice[1].lower()
-                if doorChoice in 'news':
-                    room = room.go_to(doorChoice)
-                else:
-                    print('Wrong moving direction.')
-            except Exception as error:
-                print(error)
-                print("Incorrect moving input.")
-                continue
-        elif choice == 'l':
-            print_locations()
-        elif choice == 'q':
-            play = False
-        elif choice == 'g':
-            if room.roomNum == 1:
-                print_txt("E2LeaveDungeon")
-                input("Press Enter to return to the main menu")
-            else:
-                print('You have given up hope. You wander aimlessly around the dungeon as you await your inevitable starvation.')
-                input("Press Enter to return to the main menu")
-            return True
-        elif choice == 'w':
-            if room.roomNum == 1:
-                print_txt("WaitForReshuffle")
-                ABSOLUTE_ROOM_NUM.val, OPENINGS.val = 1, 0
-                LOCATIONS.val = {}
-                room = Room.Room(-1, 1, (0,0))
-            else:
-                print("Waiting for the dungeon to shift while inside it, will likely trap you in there forever.")
-                print("Instead of sentencing yourself to a very cruel suicide, you think of other options instead.")
-                print("After some consideration you decide that it is best to either move on or exit the dungeon first.")
-        else: 
-            print("Command not recognized. Try again")
-    return False
+#         choice = str(input("Choose option (h for help): ")).lower()
+#         if choice == 'h':
+#             print_txt("HelpListCommands")
+#         elif choice == 'r':
+#             print(room)
+#         elif len(choice) > 1 and choice[0] == 'm':
+#             try:
+#                 doorChoice = choice[1].lower()
+#                 if doorChoice in 'news':
+#                     room = room.go_to(doorChoice)
+#                 else:
+#                     print('Wrong moving direction.')
+#             except Exception as error:
+#                 print(error)
+#                 print("Incorrect moving input.")
+#                 continue
+#         elif choice == 'l':
+#             print_locations()
+#         elif choice == 'q':
+#             play = False
+#         elif choice == 'g':
+#             if room.roomNum == 1:
+#                 print_txt("E2LeaveDungeon")
+#                 input("Press Enter to return to the main menu")
+#             else:
+#                 print('You have given up hope. You wander aimlessly around the dungeon as you await your inevitable starvation.')
+#                 input("Press Enter to return to the main menu")
+#             return True
+#         elif choice == 'w':
+#             if room.roomNum == 1:
+#                 print_txt("WaitForReshuffle")
+#                 ABSOLUTE_ROOM_NUM.val, OPENINGS.val = 1, 0
+#                 LOCATIONS.val = {}
+#                 room = Room.Room(-1, 1, (0,0))
+#             else:
+#                 print("Waiting for the dungeon to shift while inside it, will likely trap you in there forever.")
+#                 print("Instead of sentencing yourself to a very cruel suicide, you think of other options instead.")
+#                 print("After some consideration you decide that it is best to either move on or exit the dungeon first.")
+#         else: 
+#             print("Command not recognized. Try again")
+#     return False
+
+def GAME_explore_room() -> Option.Option:
+    global OPENINGS, LOCATIONS, ABSOLUTE_ROOM_NUM, CURRENT_LOCATION, DIRECTIONS
+    room = ...
+    if CURRENT_LOCATION.val not in LOCATIONS.val:
+        ABSOLUTE_ROOM_NUM.val += 1
+        room = Room.Room(-1, ABSOLUTE_ROOM_NUM.val, CURRENT_LOCATION.val)
+    else:
+        room = LOCATIONS.val[CURRENT_LOCATION.val]
+    room.update()
+
+    optionsList = [ Option.Option("Check the room", -1, "check_room") ]
+    for doorIdx in range(len(DIRECTIONS)):
+        if room.doors[doorIdx] > 0:
+            optionsList.append(Option.Option("Move " + DIRECTIONS[doorIdx], doorIdx, "change_room"))
+    
+    return run_interface(optionsList)
+
+        
+
+def GAME_event_manager(CurrentEvent = "explore_room") -> Option.Option:
+    match str(CurrentEvent):
+        case "explore_room":
+            return GAME_explore_room()
 
 # def main_1():
 #     global ABSOLUTE_ROOM_NUM, LOCATIONS, OPENINGS
@@ -206,8 +230,11 @@ def main():
             case "intro_continue":
                 takenOption = INTRO_game_intro(takenOption.id)
             case "intro_skip":
-                print("play!")
+                takenOption = GAME_event_manager()
                 break    
+
+            ## GAMEPLAY
+            case ""
 
             # FALLBACK
             case _:
