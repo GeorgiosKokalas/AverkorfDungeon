@@ -1,3 +1,5 @@
+from enum import IntEnum
+
 class locations:
     def __init__(self):
         self.val = {}
@@ -18,7 +20,7 @@ class rng():
         
 class current_location():
     def __init__(self):
-        self.val = (0,0)
+        self.val = (0,0,0)
 
 class color_wheel():
     def __init__(self):
@@ -43,17 +45,38 @@ class color_wheel():
         self.val["BOLD_WHITE"]      = "\033[1;37m"
         self.val["BOLD_GRAY"]       = "\033[1;38m"
 
+# ENUMS
+class DOOR_STATUS(IntEnum):
+    # Wall
+    NonExistent = 0
+    # Passable doors
+    P_NewDoor = 1
+    P_KnownDoor = 2 
+    # Unopenable doors
+    U_NoDoorHandle = -1
+    U_CollapsedDoor = -2
+    # Barricaded doors
+    B_LockedDoor = -100
+    B_BreakableDoor = -200
+    
+class RNG(IntEnum):
+    Random_Room_Spawn = 30
+    Entrance_Lock = 20
+    Suddenly_Secret_Door = 50
+
+
 # VARIABLE
 ABSOLUTE_ROOM_NUM = absolute_room_num()
 LOCATIONS = locations()
 OPENINGS = openings()
 CURRENT_LOCATION = current_location()
 
+
 # STATIC
-RNG = rng()
+# RNG = rng()
 COLOR_WHEEL = color_wheel()
 DIRECTIONS = ["North", "East", "South", "West", "Up", "Down"]
-DOOR_STATUS =
+
 
 # PROGRAM INFO
 TITLE = "Averkorf Dungeon"
@@ -65,4 +88,4 @@ def reset_global_vars():
     ABSOLUTE_ROOM_NUM.val = 0
     LOCATIONS.val = {}  
     OPENINGS.val = 0
-    CURRENT_LOCATION.val = (0,0)
+    CURRENT_LOCATION.val = (0,0,0)
