@@ -1,4 +1,5 @@
 import os,sys
+import time
 
 # Before Importing, we set the workign directory to be that of the script
 # Then append the Code folder into our path
@@ -6,7 +7,7 @@ os.chdir(os.path.dirname(os.path.realpath(__file__)))
 sys.path.append("./Code/")
 
 # Import what we need from the Code section
-from Code.global_vars import *
+import Code.global_vars as glb
 import Code.Class_Room as Room
 from Code.interface import run_interface
 import Code.Class_Option as Option
@@ -29,12 +30,10 @@ def screen_clear():
       
         
 def print_locations():
-    global LOCATIONS
-
     message = 'You wip out your catalogous to see these locations: \n'
     counter = 0
-    for i in LOCATIONS.val.keys():
-        message += f"Room {LOCATIONS.val[i].roomNum} is at {i} \t"
+    for i in glb.CH_LOCATIONS.keys():
+        message += f"Room {glb.CH_LOCATIONS[i].roomNum} is at {i} \t"
         counter += 1
         if counter == 7:
             counter = 0
@@ -42,28 +41,32 @@ def print_locations():
     print(message)
 
 
+# FUNCTION used to change rooms, currently shorthand version of actual code needed
 def GAME_change_room(DoorChoice):
-    global LOCATIONS, CURRENT_LOCATION
-    CURRENT_LOCATION.val = LOCATIONS.val[CURRENT_LOCATION.val].go_to(DoorChoice)
+    glb.CH_CUR_LOCATION = glb.CH_LOCATIONS[glb.CH_CUR_LOCATION].go_to(DoorChoice)
 
 
+# FUNCTION used to print the event of a person exploring a room
 def GAME_explore_room() -> Option.Option:
-    global OPENINGS, LOCATIONS, ABSOLUTE_ROOM_NUM, CURRENT_LOCATION, DIRECTIONS
-    if CURRENT_LOCATION.val not in LOCATIONS.val:
-        ABSOLUTE_ROOM_NUM.val += 1
-        LOCATIONS.val[CURRENT_LOCATION.val] = Room.Room(-1, ABSOLUTE_ROOM_NUM.val, CURRENT_LOCATION.val)
-    room = LOCATIONS.val[CURRENT_LOCATION.val]
+    # If our current location is not in a list of our locations, spawn a beginning room.
+    if glb.CH_CUR_LOCATION not in glb.CH_LOCATIONS:
+        glb.CH_ABS_ROOM_NUM += 1
+        glb.CH_LOCATIONS[glb.CH_CUR_LOCATION] = Room.Room(-1, glb.CH_ABS_ROOM_NUM, glb.CH_CUR_LOCATION)
+    
+    # Work with the room in the current position
+    room = glb.CH_LOCATIONS[glb.CH_CUR_LOCATION]
     room.update()
 
+    # Generate button options to move to adjacent rooms
     optionsList = [ Option.Option("Check the room", -1, "check_room") ]
-    for doorIdx in range(len(DIRECTIONS)):
+    for doorIdx in range(len(glb.DIRECTIONS)):
         if room.doors[doorIdx] > 0:
-            optionsList.append(Option.Option("Move " + DIRECTIONS[doorIdx], doorIdx, "change_room"))
+            optionsList.append(Option.Option("Move " + glb.DIRECTIONS[doorIdx], doorIdx, "change_room"))
     
     return run_interface(optionsList, AsciiArt=0, StatusText=str(room),TxtPointer=False)
 
-        
 
+# FUNCTION used to handle different events and screens
 def GAME_event_manager(CurrentEvent = "explore_room") -> Option.Option:
     match str(CurrentEvent):
         case "explore_room":
@@ -140,7 +143,7 @@ def main():
             case "main_menu":
                 takenOption = main_menu()
             case "new_game":
-                reset_global_vars()
+                glb.reset_globals()
                 takenOption = INTRO_game_intro()
             case "load_game":
                 break
@@ -169,4 +172,5 @@ def main():
             
 
 if __name__ == "__main__":
+    glb.create_globals()
     main()

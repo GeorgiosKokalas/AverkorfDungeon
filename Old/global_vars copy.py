@@ -1,5 +1,33 @@
 from enum import IntEnum
 
+class locations:
+    def __init__(self):
+        self.val = {}
+    
+    def __str__(self):
+        message = ""
+        for i in self.val:
+            message+= str(i) + ":" + str(self.val[i].roomNum) + "  |  "
+        return message
+
+class openings:
+    def __init__(self):
+        self.val = 0
+
+class absolute_room_num():
+    def __init__(self):
+        self.val = 0
+
+class rng():
+    def __init__(self):
+        self.val = {'Random Room Spawn': 0.3,        # The chances of a new door to spawn
+                    'Entrance Lock': 0.2,            # The chances that you cannot head back the way you came from
+                    'Suddenly Secret Door': 0.5}     # The chances that a door that should lead to another room is locked from this side
+        
+class current_location():
+    def __init__(self):
+        self.val = (0,0,0)
+
 class color_wheel():
     def __init__(self):
         self.val = {}
@@ -38,32 +66,32 @@ class DOOR_STATUS(IntEnum):
     B_BreakableDoor = -200
     
 class RNG(IntEnum):
-    Random_Room_Spawn = 40      # The chances of a new door to spawn
-    Entrance_Lock = 20          # The chances that you cannot head back the way you came from
-    Suddenly_Secret_Door = 50   # The chances that a door that should lead to another room is locked from this side
+    Random_Room_Spawn = 30
+    Entrance_Lock = 20
+    Suddenly_Secret_Door = 50
 
 
-# Create all global variables, should be called only once
-def create_globals():
-    global CH_ABS_ROOM_NUM, CH_LOCATIONS, CH_OPENINGS, CH_CUR_LOCATION
-    global DIRECTIONS
-    CH_ABS_ROOM_NUM = 0
-    CH_LOCATIONS = {}
-    CH_OPENINGS = 0
-    CH_CUR_LOCATION = (0,0,0)
-
-    DIRECTIONS = ["North", "East", "South", "West", "Up", "Down"]
-
-# Reset all global variables (used for a New Game)
-def reset_globals():
-    global CH_ABS_ROOM_NUM, CH_LOCATIONS, CH_OPENINGS, CH_CUR_LOCATION
-    CH_ABS_ROOM_NUM= 0
-    CH_LOCATIONS = {}  
-    CH_OPENINGS = 0
-    CH_CUR_LOCATION = (0,0,0)
+# VARIABLE
+# def initialize_global_vars():
+# global ABSOLUTE_ROOM_NUM, LOCATIONS, OPENINGS, CURRENT_LOCATION, DIRECTIONS
+ABSOLUTE_ROOM_NUM = absolute_room_num()
+LOCATIONS = locations()
+OPENINGS = openings()
+CURRENT_LOCATION = current_location()
+# STATIC
+# RNG = rng()
+# COLOR_WHEEL = color_wheel()
+DIRECTIONS = ["North", "East", "South", "West", "Up", "Down"]
 
 
 # PROGRAM INFO
 TITLE = "Averkorf Dungeon"
 CREATOR = "George"
 PLATFORM = "Python 3"
+
+
+def reset_global_vars():
+    ABSOLUTE_ROOM_NUM.val = 0
+    LOCATIONS.val = {}  
+    OPENINGS.val = 0
+    CURRENT_LOCATION.val = (0,0,0)
