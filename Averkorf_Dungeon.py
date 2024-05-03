@@ -30,15 +30,20 @@ def screen_clear():
       
         
 def print_locations():
-    message = 'You wip out your catalogous to see these locations: \n'
-    counter = 0
-    for i in glb.CH_LOCATIONS.keys():
-        message += f"Room {glb.CH_LOCATIONS[i].roomNum} is at {i} \t"
-        counter += 1
-        if counter == 7:
-            counter = 0
-            message += '\n'
-    print(message)
+    # message = 'You wip out your catalogous to see these locations: \n'
+    # counter = 0
+    # for i in glb.CH_LOCATIONS.keys():
+    #     message += f"Room {glb.CH_LOCATIONS[i].roomNum} is at {i} \t"
+    #     counter += 1
+    #     if counter == 7:
+    #         counter = 0
+    #         message += '\n'
+    # print(message)
+    pass
+
+# FUNCTION used to present sudden cutscene events
+def GAME_sudden_cutscene():
+    pass
 
 
 # FUNCTION used to change rooms, currently shorthand version of actual code needed
@@ -57,13 +62,23 @@ def GAME_explore_room() -> Option.Option:
     room = glb.CH_LOCATIONS[glb.CH_CUR_LOCATION]
     room.update()
 
-    # Generate button options to move to adjacent rooms
+    # Placeholder option
     optionsList = [ Option.Option("Check the room", -1, "check_room") ]
+
+    # See if no doors are available
+    noDoorsAvailable = True
+    # Generate button options to move to adjacent rooms
     for doorIdx in range(len(glb.DIRECTIONS)):
         if room.doors[doorIdx] > 0:
+            noDoorsAvailable = False
             optionsList.append(Option.Option("Move " + glb.DIRECTIONS[doorIdx], doorIdx, "change_room"))
-    
-    return run_interface(optionsList, AsciiArt=0, StatusText=str(room),TxtPointer=False)
+
+    if noDoorsAvailable:
+        statusTxt = 'As you look around, there appear to be no visible exits out of this room!\n\
+            Even the entrance you used appears to have been a one-way trapdoor!'
+        return run_interface(optionsList, AsciiArt='ROOM_Trapped', StatusText=statusTxt,TxtPointer=False)
+    else:
+        return run_interface(optionsList, AsciiArt='ROOM_Default', StatusText=str(room),TxtPointer=False)
 
 
 # FUNCTION used to handle different events and screens
@@ -158,6 +173,7 @@ def main():
             case "intro_continue":
                 takenOption = INTRO_game_intro(takenOption.id)
             case "intro_skip":
+                glb.CH_PLAYER.show_stats = True
                 takenOption = GAME_event_manager("explore_room")
 
             ## GAMEPLAY

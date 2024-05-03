@@ -1,3 +1,19 @@
+Build - 0.2.4:
+Improved the Player Class and inmplemented stats.
+Player is now a global. Player is also an Object (always has been).
+Changed interface to show Player stats.
+Interface now shows a Room Picture.
+Added Location and Non-Rooms classes to establish location types via inheritance.
+Adjacent coordinates are generated in a more consistent manner.
+Altered door generation conditions to be more organizable.
+Door generation affects and is affected by location types that are not rooms for more consistent mapping.
+Changed the text generation for each room to account for walls, ceilings, and floors.
+Added more comments to explain functionality.
+Interface will provide a special message if the player is trapped in a Room.
+Established Crashes to detect if doors lead to incopatible locations.
+VERTICAL NAVIGATION IS STILL DISABLED.
+Changed some details on the introductory cutscenes 3 and 4.
+
 Build - 0.2.3:
 Creating a Player Class
 Implementing selection Format into simple dungeon navigation.

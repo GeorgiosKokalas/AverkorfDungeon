@@ -1,9 +1,34 @@
-class player():
+class Player():
     # The max value of something is the highest it can go
     def __init__(self, Health=100, Stamina=100, Magic=100):
         self._maxHealth  = self._topHealth  = self._curHealth  = Health 
         self._maxStamina = self._topStamina = self._curStamina = Stamina
         self._maxMagic   = self._topMagic   = self._curMagic   = Magic
+        self.show_stats = False
+
+    def __str__(self) -> str:
+        message = ''
+        # 0 = type, 1 = max, 2 = top, 3 = current, 4 = RGB
+        category = [('Health ', self._maxHealth, self._topHealth, self._curHealth, '\033[0;42m'),\
+                    ('Stamina', self._maxStamina, self._topStamina, self._curStamina, '\033[0;43m'),\
+                    ('Magic  ', self._maxMagic, self._topMagic, self._curMagic, '\033[0;44m')]
+        
+        # Loop through each category
+        for catIdx in range(len(category)):
+            # Get numerical values for each category
+            # currentPercent is the percentage of the current Stat to the max Stat
+            #<type>Bar is how many whitespaces to put in the Stat bar for the current, top or max value
+            currentPercent = category[catIdx][3]*100/category[catIdx][1]
+            currentBar = int(currentPercent/4)
+            topBar = int(((category[catIdx][2] - category[catIdx][3])*100/category[catIdx][1])/4)
+            maxBar = int(25 - currentBar - topBar)
+
+            # Append to the message
+            message += category[catIdx][0] + " :" + \
+                       category[catIdx][4] + ' '*currentBar + \
+                       '\033[0;41m' + ' '*topBar + '#'*maxBar + \
+                       '\033[0m' +'| '+ str(currentPercent) +'%\n'
+        return message
 
     def __change_max(self, NewVal, MaxTrait, TopTrait, CurTrait):
         diff = NewVal - MaxTrait

@@ -1,6 +1,7 @@
 import keyboard
 import time
-import Class_Option as Option
+import Code.Class_Option as Option
+import Code.global_vars as glb
 import os
 
 def screen_clear():
@@ -25,18 +26,21 @@ def update_interface(OptionsList, SelectedOptionIdx = 0, AsciiArt = 0, StatusTex
         asciiFile = open( "./ascii/"+AsciiArt+".txt", "r")
         print(asciiFile.read())
         asciiFile.close()
-    
+        print("------------------------------")
+
     if StatusText !=0:
-        # print("------------------------------")
         if TxtPointer:
             statusFile = open( "./txt_folder/"+StatusText+".txt", "r")
             print(statusFile.read())
             statusFile.close()
         else:
             print(StatusText)
+        print("------------------------------")
 
-
-    print("------------------------------")
+    if glb.CH_PLAYER.show_stats:
+        print(glb.CH_PLAYER)
+        print("------------------------------")
+    
     for idx in range(len(OptionsList)):
         print_option(OptionsList[idx], idx, SelectedOptionIdx, len(OptionsList))
     
